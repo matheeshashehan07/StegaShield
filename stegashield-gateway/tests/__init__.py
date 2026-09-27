@@ -1,0 +1,1 @@
+"""StegaShield automated tests."""

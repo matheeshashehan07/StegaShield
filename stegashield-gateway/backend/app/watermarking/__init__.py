@@ -1,0 +1,1 @@
+"""Document-format watermarking adapters."""

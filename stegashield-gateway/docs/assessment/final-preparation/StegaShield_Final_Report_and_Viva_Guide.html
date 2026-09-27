@@ -1,0 +1,519 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>StegaShield: Final Report and Viva Preparation Guide</title><style>@page{size:A4;margin:19mm 17mm 20mm}body{font:10.5pt/1.42 Arial,sans-serif;color:#203733}
+h1{font-size:26pt;border-bottom:4px solid #197965;padding-bottom:12px}h2{font-size:17pt;margin-top:24px}
+h3{font-size:12pt}h1,h2,h3{color:#176f60;break-after:avoid}p{margin:0 0 9px}
+table{width:100%;border-collapse:collapse;font-size:8.3pt;margin:12px 0}th{background:#e7f1ed;color:#164d41}
+td,th{border:1px solid #c6d8d1;padding:6px;text-align:left;vertical-align:top}tr{break-inside:avoid}
+thead{display:table-header-group}</style><body><h1>STEGASHIELD GATEWAY</h1>
+<h2>Final Report and Viva Preparation Guide</h2>
+<p>Group 60 | SLIIT | Prepared 25 September 2026</p>
+<p>Purpose: explain every expectation in the supplied final-report/final-viva slide and show how to address it using StegaShield. This is a preparation pack, not a declaration that the project is complete. No marking weights, interview responses, work hours or experimental results have been invented.</p>
+<h2>1. How to use this pack</h2>
+<p>Read Sections 2–8 to prepare the written report. Use Sections 9–12 to rehearse the viva and live demonstration. Complete the separate stakeholder and logbook templates using genuine records. Attach redacted evidence and rerun the final tests before submission.</p>
+<p>The slide lists topics, not a full rubric. Confirm the required report format, page limit, citation style, presentation duration and individual assessment rules with the lecturer. This guide aligns with the supplied topics but cannot guarantee a grade.</p>
+<p>The factual baseline is the original Group 60 proposal, the generated progress report, docs/assessment/readme.txt, and the current implementation documentation. The latest previously recorded checkpoint is 160 backend tests, 77 local database tests, 12 frontend tests, nine browser scenarios and a passing frontend build. These tests were reported during the 09 September profile-editing work; they were not rerun for this preparation pack. The older progress PDF contains earlier counts and must not be described as the final test record.</p>
+<h2>2. Final report: Background</h2>
+<h3>What the assessor needs to understand</h3>
+<p>Explain the real problem, who experiences it, what existing controls do, and why your solution is worth investigating. Distinguish the problem from a list of technologies.</p>
+<h3>StegaShield-specific draft</h3>
+<p>Organisations can restrict access to sensitive documents, yet an authorised recipient may redistribute a legitimate downloaded copy through online channels. Access logs record interactions with the system but do not necessarily identify which issued copy corresponds to a recovered file. StegaShield investigates whether anonymous per-copy watermarking, combined with a protected server-side audit mapping, can support post-download attribution without embedding raw personal information in the document.</p>
+<p>The solution complements access control and Data Loss Prevention; it is not a replacement for them. It does not automatically discover leaks on the internet. An authorised investigator must obtain and submit a suspect file. Its contribution is an integrated, testable document-issuance and forensic workflow, not a proven claim that no previous watermarking or traitor-tracing system exists.</p>
+<p>Include: problem scenario; intended organisation/users; comparison of access control, DLP, DRM and watermarking; bounded research gap; research question; objectives; and privacy considerations. Verify the proposal&#x27;s bibliography before repeating academic citations. Avoid unsupported claims that every DLP product lacks attribution or that StegaShield is the world&#x27;s first solution.</p>
+<p>Evidence: proposal Sections 1–2, corrected literature table, a synthetic insider-sharing scenario, and an explanation of why a download event is more precise than a general account identifier.</p>
+<h2>3. Final report: Technology</h2>
+<p>Describe each technology&#x27;s role, why it was chosen, its limitations and any replacement of the proposed stack. Do not list package names without explaining their contribution.</p>
+<table>
+<tr>
+<th>Layer/tool</th>
+<th>Actual purpose</th>
+<th>What to explain in the viva</th>
+</tr>
+<tr>
+<td>React, TypeScript, Vite, Tailwind CSS</td>
+<td>Browser member/admin portal and build workflow</td>
+<td>Typed UI does not replace server authorisation</td>
+</tr>
+<tr>
+<td>Python, FastAPI, Uvicorn</td>
+<td>API validation, authentication dependencies and document processing</td>
+<td>Why principal-derived identities are trusted instead of request-body IDs</td>
+</tr>
+<tr>
+<td>Supabase Auth, PyJWT, JWKS</td>
+<td>Login, token refresh, signed JWT verification</td>
+<td>Signature, issuer, audience, expiry, algorithm allowlist and trusted app role</td>
+</tr>
+<tr>
+<td>PostgreSQL/RLS, Supabase Storage</td>
+<td>Permissions, audit mapping and private originals</td>
+<td>Caller-scoped metadata versus narrowly scoped server operations</td>
+</tr>
+<tr>
+<td>python-docx</td>
+<td>DOCX structure and text carrier</td>
+<td>Why zero-width symbols require underlying digital text</td>
+</tr>
+<tr>
+<td>pypdf</td>
+<td>Experimental static PDF carrier</td>
+<td>Replaces proposed pikepdf; non-rendering marked-content points, not DOCX text runs</td>
+</tr>
+<tr>
+<td>uuid, hmac, hashlib</td>
+<td>Per-download UUID, HMAC-SHA256 tag and SHA-256 file hash</td>
+<td>Randomness, authenticity and exact-file integrity are different properties</td>
+</tr>
+<tr>
+<td>pypdfium2</td>
+<td>Independent PDF renderer used in tests</td>
+<td>Generated-fixture pixel equality is not universal compatibility proof</td>
+</tr>
+<tr>
+<td>docx-preview and browser PDF viewer</td>
+<td>Preview a recorded protected copy</td>
+<td>No public original URL; DOCX frame isolation and rendering limitations</td>
+</tr>
+<tr>
+<td>Pillow</td>
+<td>Validate, resize and re-encode small profile photos; report figure generation</td>
+<td>Not evidence that a DCT visual-watermark pipeline exists</td>
+</tr>
+<tr>
+<td>pytest, pgTAP, Vitest, Playwright</td>
+<td>Backend, database, frontend and browser checks</td>
+<td>Local/mocked evidence differs from hosted end-to-end evidence</td>
+</tr>
+<tr>
+<td>Supabase CLI, Docker, npm</td>
+<td>Local database verification and frontend dependency/build tooling</td>
+<td>Docker is not needed for normal use with hosted Supabase</td>
+</tr>
+</table>
+<p>The proposal already named React/Vite/Tailwind, Python/FastAPI and Supabase. TypeScript, concrete authentication/testing tools, DOCX preview and profile-image handling are implementation details/additions. OpenCV/DCT and Tesseract photo recovery are not implemented. The proposal explicitly excludes photos/print but lists those tools elsewhere; document the inconsistency and obtain supervisor clarification rather than silently claiming completion.</p>
+<p>Use requirements.txt and frontend/package-lock.json for the final dependency record. Do not call a declared version range an exact installed version. Never include actual .env values, service keys, passwords, session tokens or private production files in the report.</p>
+<h2>4. Final report: Methodology</h2>
+<h3>Research approach</h3>
+<p>Use the proposal&#x27;s design science approach: identify the post-download attribution problem; establish requirements and threats; design an artefact; build and integrate components; evaluate against explicit metrics; reflect on findings and limitations. Iterative development is the engineering process supporting that research, not a substitute for experiments.</p>
+<h3>Actual engineering sequence</h3>
+<p>The implementation established database/authentication boundaries, built and tested the protected DOCX download/forensic workflow, added the portal, validated the experimental PDF adapter, and introduced position access, previews, refresh persistence and profile editing. Present this as group implementation history supported by artefacts, not as invented personal dates or hours.</p>
+<h3>Explain the protected-download flow</h3>
+<p>1. Verify the access token and resolve the trusted application role.</p>
+<p>2. Authorise the active document through an individual or job-position grant, or the existing admin privilege.</p>
+<p>3. Retrieve the private original and verify its size/hash and absence of an existing mark.</p>
+<p>4. Generate a fresh UUID and signed watermark; create the protected copy in memory.</p>
+<p>5. Recheck relevant permissions/session state in the database recording transaction.</p>
+<p>6. Return the file only after the download record is acknowledged.</p>
+<p>The event proves issuance was recorded, not that the recipient finished reading the response. Opening Preview also issues a protected copy through this flow.</p>
+<h3>Explain the forensic flow</h3>
+<p>1. Require administrator access and append an attempt-started audit record.</p>
+<p>2. Validate and parse the suspect document.</p>
+<p>3. Recover a valid signed token without guessing between conflicting identities.</p>
+<p>4. Look up its registered download record.</p>
+<p>5. Compare the suspect SHA-256 with the stored protected-file hash.</p>
+<p>6. Append the completed audit record before returning a matched/inconclusive result.</p>
+<p>The HMAC authenticates the token, not every byte of the surrounding document. The exact-hash comparison prevents a transplanted valid token from causing a positive match for an unrelated file. Edited copies may therefore remain inconclusive even if extraction recovers the token.</p>
+<h3>Required experimental method</h3>
+<p>Complete the proposal&#x27;s approximately 30–50-document corpus with supported DOCX and static PDF examples of varied sizes/layouts. Keep unsupported/encrypted/malformed inputs in a separate rejection set. Record format, application version, transformation, original/protected hash, expected token/event, measured latency and observed outcome. Use synthetic or permission-cleared files.</p>
+<table>
+<tr>
+<th>Metric</th>
+<th>Measurement</th>
+<th>Important distinction</th>
+</tr>
+<tr>
+<td>Session uniqueness</td>
+<td>Duplicate IDs / generated sessions</td>
+<td>Measure per-download token uniqueness separately</td>
+</tr>
+<tr>
+<td>Invisibility</td>
+<td>Text/layout checks and render comparisons</td>
+<td>State renderer, resolution, language and corpus scope</td>
+</tr>
+<tr>
+<td>Extraction</td>
+<td>Correct tokens / eligible marked files</td>
+<td>Separate original issued copies and transformed copies</td>
+</tr>
+<tr>
+<td>Robustness</td>
+<td>Recovery after re-save/copy-paste/excerpt/conversion</td>
+<td>Token survival is not positive attribution</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Embed/extract/API latency and memory</td>
+<td>Report hardware, repetitions, median/p95 and cold/warm conditions</td>
+</tr>
+<tr>
+<td>Database security</td>
+<td>Explicit negative authorisation cases</td>
+<td>Passing selected cases does not prove exhaustive security</td>
+</tr>
+<tr>
+<td>Attribution</td>
+<td>Correct positive mappings / defined issued-file cases</td>
+<td>Also report inconclusive cases</td>
+</tr>
+<tr>
+<td>False attribution</td>
+<td>Incorrect positive mappings / negative-control cases</td>
+<td>Report the denominator even if zero observed</td>
+</tr>
+</table>
+<p>Do not graph invented success percentages. Planned charts are extraction by transformation, latency by document size and a matched/inconclusive/wrong-match matrix. Populate them only from saved results. Automated test counts are useful engineering evidence, not research accuracy rates.</p>
+<h2>5. Final report: Scope of solution</h2>
+<table>
+<tr>
+<th>Capability</th>
+<th>Current baseline</th>
+<th>Limit / qualification</th>
+</tr>
+<tr>
+<td>Authentication and app roles</td>
+<td>Implemented</td>
+<td>Current session_id claim is optional; local session rows are created during download rather than every login</td>
+</tr>
+<tr>
+<td>Individual and position access</td>
+<td>Implemented</td>
+<td>Access is the union of grants; one position per member; prior copies cannot be recalled</td>
+</tr>
+<tr>
+<td>DOCX watermarking</td>
+<td>Implemented</td>
+<td>Reformatting or sanitisation may strip markers</td>
+</tr>
+<tr>
+<td>PDF watermarking</td>
+<td>Opt-in experimental implementation</td>
+<td>Static documents; non-rendering carrier; broader compatibility testing remains</td>
+</tr>
+<tr>
+<td>Forensic exact-copy match</td>
+<td>Implemented</td>
+<td>Identifies issued copy/account, not proof of who leaked it</td>
+</tr>
+<tr>
+<td>Session/IP in forensic result</td>
+<td>Incomplete in documented implementation</td>
+<td>Current result exposes event/user/document/time, not the full proposed evidence fields</td>
+</tr>
+<tr>
+<td>Protected previews</td>
+<td>Implemented</td>
+<td>Preview is recorded issuance; screenshots/copied text are not attributable</td>
+</tr>
+<tr>
+<td>Refresh-safe sessions</td>
+<td>Implemented with sessionStorage</td>
+<td>Tab-scoped, not permanent remember-me or HttpOnly cookies</td>
+</tr>
+<tr>
+<td>Profile editing</td>
+<td>Name and photo only</td>
+<td>Email, user ID, role and position are not editable through this feature</td>
+</tr>
+<tr>
+<td>Profile photos</td>
+<td>Normalised JPEG stored privately under RLS</td>
+<td>Small avatars, not document storage; no original uploaded image retained</td>
+</tr>
+<tr>
+<td>Photo/print/screenshot tracing</td>
+<td>Not supported</td>
+<td>Excluded by main proposal scope; DCT/OCR table inconsistency needs clarification</td>
+</tr>
+<tr>
+<td>Internet leak discovery</td>
+<td>Not implemented</td>
+<td>Investigator supplies recovered file</td>
+</tr>
+<tr>
+<td>Public production deployment</td>
+<td>Not certified/fully evidenced</td>
+<td>Isolation, rate limits, recovery, retention and operational review remain</td>
+</tr>
+</table>
+<p>Explain additions as deliberate refinements: signed per-download tokens instead of reused login Session IDs; exact-hash attribution; dynamic position permissions; protected previews; profile editing; and concrete failure-handling/audit controls. Do not describe them as approved proposal amendments without an actual approval record.</p>
+<h2>6. Final report: Stakeholder feedback</h2>
+<p>No formal stakeholder interviews, questionnaire responses or sign-offs were supplied for this pack. Earlier statements that features worked are informal user feedback, not a substitute for a structured evaluation. Never invent participant quotes, percentages, satisfaction scores or meeting records.</p>
+<p>Suggested participants: an intended document recipient, a document administrator/investigator, and the academic supervisor. Record role and consent without unnecessarily publishing their identity. Internal group testing should be labelled internal, not independent stakeholder validation.</p>
+<p>Suggested session: explain the prototype and its limits; ask the participant to find/download a permitted document, inspect a preview, interpret a match versus inconclusive result, and, if an admin, grant/revoke member/position access. Observe errors, hesitation and misunderstandings. Ask whether the result makes clear that a matched account is not proof of a human perpetrator.</p>
+<p>Use STAKEHOLDER_FEEDBACK_TEMPLATE.csv for raw observations. Summarise each finding as: observation -&gt; impact -&gt; decision -&gt; implemented change or reason deferred -&gt; retest outcome. Report how many people actually participated and how they were selected. Do not generalise a small convenience sample into organisational acceptance.</p>
+<p>Example format only, NOT collected feedback: [Participant role] found [task/problem]; the team changed [specific control/text]; [retest date/evidence] showed [actual result]. Replace every bracket with a genuine record or omit the claim.</p>
+<h2>7. Final report: Documentation</h2>
+<p>Prepare a coherent final report rather than merely renaming the progress PDF. Include title/group details, abstract, contents, background, objectives, stack, design/methodology, implementation, scope, evaluation findings, stakeholder feedback, discussion/limitations, conclusion, verified references and appendices.</p>
+<table>
+<tr>
+<th>Document/evidence</th>
+<th>Existing source or required action</th>
+</tr>
+<tr>
+<td>Proposal comparison</td>
+<td>docs/assessment/readme.txt and progress report; update with profile editing</td>
+</tr>
+<tr>
+<td>System/API/data design</td>
+<td>Backend routes, migrations and workflow guides</td>
+</tr>
+<tr>
+<td>User manual</td>
+<td>Sign-in, grants, downloads, previews, forensics, profile edit, errors and sign-out</td>
+</tr>
+<tr>
+<td>Setup/admin guide</td>
+<td>Root .env.example, dependency manifests, migration instructions and secret-handling rules</td>
+</tr>
+<tr>
+<td>Test evidence</td>
+<td>Fresh dated outputs; environment details; distinguish mocks/local DB from hosted tests</td>
+</tr>
+<tr>
+<td>Research results</td>
+<td>Corpus manifest, raw measurements, reproducible commands, analysed charts</td>
+</tr>
+<tr>
+<td>Security documentation</td>
+<td>Threat model, failure semantics, RLS boundaries, key/retention/deployment limits</td>
+</tr>
+<tr>
+<td>Stakeholder evidence</td>
+<td>Consent/role records, observed tasks, findings, changes and retests</td>
+</tr>
+<tr>
+<td>Individual evidence</td>
+<td>Logbook 2, genuine artefacts/commits, component explanation and integration work</td>
+</tr>
+<tr>
+<td>Demonstration evidence</td>
+<td>Redacted screenshots or recording using synthetic files/accounts</td>
+</tr>
+</table>
+<p>Existing figures can be reused from docs/assessment/figures with accurate captions. Review diagrams against the final code; do not treat old test-count figures as current. Avoid claiming OWASP/ISO certification or a completed penetration test. Cite official guidance as design guidance and verify academic bibliography entries independently.</p>
+<h2>8. Final report: Logbook 2</h2>
+<p>Logbook 2 should record each person&#x27;s work since the previous assessed logbook period, using the lecturer&#x27;s actual required dates. The supplied slide does not specify a minimum number of hours or entries. Do not copy dates/hours from another group&#x27;s example, reconstruct personal labour from tool timestamps, or assign identical entries to everyone.</p>
+<p>Each entry should contain actual date, objective, individual activity, decision/problem, artefact reference, actual hours, test/learning outcome, next action and review confirmation if required. Explain integration work as well as coding. Use LOGBOOK_2_TEMPLATE.csv; blank rows are intentional.</p>
+<table>
+<tr>
+<th>Member / proposal allocation</th>
+<th>Useful evidence to select if personally contributed</th>
+</tr>
+<tr>
+<td>Nethmika J.A.M. — IT23817258 / authentication gateway</td>
+<td>JWT checks, session handling, permission boundaries, refresh/sign-out testing</td>
+</tr>
+<tr>
+<td>K.K.R.L. Madhushani — IT23840546 / watermarking</td>
+<td>Codec/adapters, HMAC, token conflicts, transformations, invisibility and performance experiments</td>
+</tr>
+<tr>
+<td>L.P.M.S. Prasanna — IT23638136 / audit database</td>
+<td>RLS/migrations, trusted recording, session/position tests, profile-photo privacy, recovery work</td>
+</tr>
+<tr>
+<td>Liyanamana M. — IT24569072 / forensic portal</td>
+<td>Matched/inconclusive UI, audited attempts, protected previews, profile UX, browser/accessibility testing</td>
+</tr>
+</table>
+<p>These are proposal responsibilities, not certified authorship. Members must describe their actual contributions and identify shared or AI-assisted work according to institutional policy.</p>
+<h2>9. Final viva: map each expectation to preparation</h2>
+<table>
+<tr>
+<th>Slide expectation</th>
+<th>What to demonstrate</th>
+<th>Preparation task</th>
+</tr>
+<tr>
+<td>Knowledge in domain</td>
+<td>Explain insider risk, DLP/DRM, watermarking, authentication, authorisation, integrity and privacy</td>
+<td>Give one example and one limitation of each relevant concept</td>
+</tr>
+<tr>
+<td>Explanation of finding solution</td>
+<td>Connect problem, alternatives, requirements and design tradeoffs</td>
+<td>Explain why signed per-copy IDs and exact-file matching were selected</td>
+</tr>
+<tr>
+<td>Core functionalities</td>
+<td>Show allowed and denied workflows, not only successful screens</td>
+<td>Rehearse the live demo in Section 11</td>
+</tr>
+<tr>
+<td>Describing methodology</td>
+<td>Connect design science, iterative implementation and actual experiments</td>
+<td>Explain one test, its expected outcome and what it cannot prove</td>
+</tr>
+<tr>
+<td>Communication skills</td>
+<td>Give direct structured answers and acknowledge uncertainty</td>
+<td>Use problem -&gt; decision -&gt; evidence -&gt; limitation</td>
+</tr>
+<tr>
+<td>Individual contribution</td>
+<td>Demonstrate personally understood work and integration</td>
+<td>Bring two genuine artefacts, a bug/decision and a verified logbook</td>
+</tr>
+</table>
+<h3>Suggested opening statement</h3>
+<p>StegaShield is a browser-based gateway for investigating digitally shared copies of sensitive documents. Every authorised download receives an anonymous, signed per-download token, while identity mapping stays on the server. Administrators can examine a recovered file and identify an exact issued copy when both the signed token and stored file hash match. We implemented access control, private originals, DOCX and experimental PDF carriers, audited lookup and protected previews. Our main remaining research obligation is to quantify transformation robustness and performance; a match is not proof of which person leaked the file.</p>
+<p>Use this as a model, not a memorised substitute for understanding. Update remaining-work statements when supported by real evidence.</p>
+<h2>10. Viva questions and model answers</h2>
+<h3>Q1. What problem does the project solve?</h3>
+<p>It addresses the connection between a recovered digital document and an authorised download event. It complements preventive controls and provides controlled attribution evidence after a file has left the gateway.</p>
+<h3>Q2. How is this different from ordinary access logging?</h3>
+<p>An access log alone is not carried with the file. Our issued copy contains a token that can be resolved to an event, provided the file meets our signature and exact-hash checks.</p>
+<h3>Q3. Why not embed the user&#x27;s name or email?</h3>
+<p>That would expose raw identity to anyone receiving the document. We embed an anonymous token and restrict the mapping. The token is still linkable within the trusted system; this is data minimisation, not absolute anonymity.</p>
+<h3>Q4. Why did you change the proposal&#x27;s Session ID design?</h3>
+<p>A login session can contain several downloads. A fresh per-download UUID distinguishes issued copies and can reference the verified login session server-side. We disclose that refinement and must obtain any required academic approval.</p>
+<h3>Q5. What does HMAC add?</h3>
+<p>It detects changes or unauthorised fabrication of the encoded token frame using a server secret. It is symmetric message authentication, not encryption and not a public-key digital signature. Someone with the signing secret remains trusted.</p>
+<h3>Q6. Why compare SHA-256 if the token is signed?</h3>
+<p>The token signature does not bind all document bytes. A valid frame could be transplanted into another file. Comparing the entire suspect file to the recorded issued-file hash prevents that positive match under our current policy.</p>
+<h3>Q7. What happens if a genuine copy is re-saved?</h3>
+<p>The token may survive, but the file hash can change, so positive attribution becomes inconclusive. We must measure token survival separately from exact-copy attribution instead of presenting this as robust edited-file tracing.</p>
+<h3>Q8. Does a match prove who leaked the document?</h3>
+<p>No. It identifies an issued copy associated with an account/event. Credential theft, shared devices or another person obtaining the file remain possible. Interpretation needs additional investigative evidence.</p>
+<h3>Q9. Can you trace screenshots or printed copies?</h3>
+<p>No. Zero-width characters depend on digital structure and are not recoverable from rendered pixels. The proposal&#x27;s main scope excludes these channels. DCT/OCR entries elsewhere are inconsistent with that scope and are not implemented capabilities.</p>
+<h3>Q10. How do DOCX and PDF carriers differ?</h3>
+<p>DOCX inserts zero-width frames into text structures. The experimental PDF adapter inserts a non-rendering marked-content point in page content. They share the signed-token codec, not identical embedding locations or transformation behaviour.</p>
+<h3>Q11. How is access enforced?</h3>
+<p>FastAPI authenticates the user and checks permissions, caller-scoped database queries apply RLS, and the trusted recording function rechecks relevant authorisation/session conditions before inserting the event. The frontend hiding a button is not the security boundary.</p>
+<h3>Q12. How do individual and job-position grants interact?</h3>
+<p>Either valid source grants access. Removing an individual grant does not cancel a position grant, and vice versa. A member has one current position, assigned by an admin. Changes affect future requests, not copies already issued.</p>
+<h3>Q13. Why record before returning the document?</h3>
+<p>Returning a marked copy without a durable mapping would break attribution. If recording fails or is not acknowledged, the API does not return protected-file bytes. A committed event followed by a network failure can still represent issuance rather than confirmed receipt.</p>
+<h3>Q14. What if forensic logging fails?</h3>
+<p>The API must not disclose a forensic result without the required audit operation. A start record is written before parsing; interruption may leave an unfinished attempt. That is an observable failure, not a fabricated successful investigation.</p>
+<h3>Q15. Where are the originals?</h3>
+<p>In a private Supabase Storage bucket with client access restricted. The API generates copies in memory and verifies original metadata. It does not publish original URLs or keep every generated protected copy as a stored file.</p>
+<h3>Q16. Are administrators completely unable to alter evidence?</h3>
+<p>Application/database protections restrict ordinary changes and make event rows append-only through supported roles. They do not make a database superuser or compromised server secret harmless, nor create external notarisation.</p>
+<h3>Q17. Why does refresh no longer sign the user out?</h3>
+<p>The browser now uses tab-scoped sessionStorage with Supabase session restoration/refresh. The application role is still server-verified. This is not permanent remember-me storage or an HttpOnly cookie architecture; same-origin XSS remains a concern.</p>
+<h3>Q18. Does preview bypass watermarking?</h3>
+<p>No. Preview requests a recorded protected copy through the download API. Saving from that preview saves the same copy. Browser rendering, screenshots and copied text do not preserve our exact-file guarantee.</p>
+<h3>Q19. What can users edit in their profile?</h3>
+<p>Only display name and profile picture. Unknown or privileged fields are rejected by the editing API. Pictures are decoded, bounded, resized and re-encoded as small JPEGs without source metadata, then stored in a private RLS table through a narrowly scoped trusted update.</p>
+<h3>Q20. How do you know it is secure?</h3>
+<p>We can demonstrate specified security properties through negative tests and explain the trust boundaries. We cannot claim universal security. Public processing isolation, rate limits, secret lifecycle, deployment checks and broader attack testing remain important.</p>
+<h3>Q21. What do your test totals prove?</h3>
+<p>They show the selected automated cases passed at a recorded checkpoint. They do not equal code coverage, research extraction accuracy, a production penetration test or hosted end-to-end verification. Final claims need fresh logs and experimental data.</p>
+<h3>Q22. What is your biggest remaining proposal gap?</h3>
+<p>The controlled evaluation is incomplete in the documented baseline. Mandatory session/login-audit semantics and the administrator-visible session/IP evidence fields also need resolution. These should be named directly rather than hidden behind cosmetic improvements.</p>
+<h3>Q23. What is your individual contribution?</h3>
+<p>Answer only with genuine work: I implemented/reviewed [component], made [decision] because [reason], tested it using [case], and integrated it with [other component]. Show [artefact]. Explain any shared/assisted work transparently.</p>
+<h3>Q24. What would you improve next?</h3>
+<p>Prioritise measured corpus evaluation and missing evidence semantics, then hard resource isolation, operational controls, administrative-change history, accessibility and pagination. Do not remove exact-hash checks simply to increase the number of apparent matches.</p>
+<h2>11. Live demo plan</h2>
+<p>The suggested 10-minute allocation below is a rehearsal plan, not an official time limit. Adapt it to the lecturer&#x27;s instructions.</p>
+<table>
+<tr>
+<th>Approximate time</th>
+<th>Action</th>
+<th>Explain / verify</th>
+</tr>
+<tr>
+<td>0:00–1:00</td>
+<td>Introduce problem, scope and account roles</td>
+<td>Digital file attribution, not screenshot tracing or proof of guilt</td>
+</tr>
+<tr>
+<td>1:00–2:30</td>
+<td>Admin uploads synthetic original; grants A but not B</td>
+<td>Private original; trusted access boundary</td>
+</tr>
+<tr>
+<td>2:30–4:00</td>
+<td>A downloads twice; B is denied</td>
+<td>Fresh token per copy; account identity from verified token</td>
+</tr>
+<tr>
+<td>4:00–5:30</td>
+<td>Admin investigates first unchanged download</td>
+<td>Exact-copy match, restricted fields and audit event</td>
+</tr>
+<tr>
+<td>5:30–6:30</td>
+<td>Investigate original and modified copy</td>
+<td>Inconclusive; no guessed user identity</td>
+</tr>
+<tr>
+<td>6:30–7:30</td>
+<td>Demonstrate position grant then revoke effective access</td>
+<td>Union semantics and future-request enforcement</td>
+</tr>
+<tr>
+<td>7:30–8:30</td>
+<td>Preview, refresh, and edit display name/photo</td>
+<td>Preview issues protected copy; privileged profile fields cannot change</td>
+</tr>
+<tr>
+<td>8:30–10:00</td>
+<td>Show test evidence, limitations and individual work</td>
+<td>Distinguish automated fixtures, hosted proof and research results</td>
+</tr>
+</table>
+<p>Beforehand: confirm migrations on the intended project; start API/frontend; verify credentials and network; use separate browser contexts for admin/A/B; prepare original/unchanged/modified copies with known provenance; test PDF only if enabled; redact secrets. Include the avatar migration if demonstrating profile edits. Do not run unreviewed schema changes live in the viva.</p>
+<p>Fallback: keep a labelled prerecorded demonstration and redacted screenshots/test outputs. If connectivity fails, state the limitation honestly and explain recorded evidence. Do not call mocked results a live hosted success.</p>
+<h2>12. Communication and individual rehearsal</h2>
+<p>Use a four-part answer: direct answer; mechanism; evidence; limitation. For example: &quot;No, a signature alone does not prove the whole file is authentic. It signs the token, so we compare the issued-file hash too. The changed-file tests exercise this. Consequently re-saved copies can be inconclusive.&quot;</p>
+<p>All four members should be able to explain the entire issuance/lookup flow, then go deeper into their own verified contribution. Each should prepare a two-minute component explanation, one design tradeoff, one bug and its test, one integration boundary and one limitation. Do not assign speaking credit based solely on the proposal table.</p>
+<p>Rehearsal questions to ask one another: What if this check is removed? Who can call this function? What is trusted input? What happens if the database fails? What data leaves the server? Can a client alter this role? What does the test actually prove? Where is your personal evidence?</p>
+<h2>13. Final readiness checklist</h2>
+<table>
+<tr>
+<th>Gate</th>
+<th>Required evidence</th>
+<th>Status to fill</th>
+</tr>
+<tr>
+<td>Proposal reconciliation</td>
+<td>Supervisor decision on session/token, PDF carrier and photo scope</td>
+<td>[Pending actual confirmation]</td>
+</tr>
+<tr>
+<td>Hosted functional validation</td>
+<td>Real admin/member cases, grants, revocation, lookup and profile editing</td>
+<td>[Record result/date]</td>
+</tr>
+<tr>
+<td>Research evaluation</td>
+<td>Actual corpus, measurements, transformation results and uncertainty</td>
+<td>[Record result/date]</td>
+</tr>
+<tr>
+<td>Missing evidence fields/session semantics</td>
+<td>Implement/test or explicitly document approved limitation</td>
+<td>[Record decision]</td>
+</tr>
+<tr>
+<td>Stakeholder feedback</td>
+<td>Real participants, observations, changes and retests</td>
+<td>[Record evidence]</td>
+</tr>
+<tr>
+<td>Documentation</td>
+<td>Final report, user/admin guides, screenshots and verified references</td>
+<td>[Review needed]</td>
+</tr>
+<tr>
+<td>Logbook 2</td>
+<td>Actual individual entries, hours and artefacts</td>
+<td>[Each member completes]</td>
+</tr>
+<tr>
+<td>Security/recovery</td>
+<td>Deployment checks, secrets, resource limits and recovery evidence</td>
+<td>[Record scope/limitations]</td>
+</tr>
+<tr>
+<td>Viva rehearsal</td>
+<td>Timed demo and individual technical explanation</td>
+<td>[Record rehearsal]</td>
+</tr>
+</table>
+<p>Final recommendation: prioritise verifiable evidence and student understanding over additional visual polish. The project can be presented strongly without overstating robustness, novelty, production readiness or personal contribution.</p>
+<h2>Source notes</h2>
+<p>The supplied image IMG-20260924-WA0086.jpg supplies the seven final-report and six viva expectations. The original Group 60 proposal and previously prepared progress/change documents supply the project context. Implementation guides include DOCX_WORKFLOW.md, PDF_VALIDATION.md, WORKSPACE_UPGRADES.md and PROFILE_EDITING.md. This pack introduces no new research measurements and no fabricated stakeholder or logbook records.</p></body></html>

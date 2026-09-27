@@ -1,0 +1,28 @@
+.preview-dialog { margin: auto; width: min(1100px, 94vw); max-height: 94vh; border: 1px solid #d4e2dd; border-radius: 20px; padding: 28px; color: #173d37; box-shadow: 0 30px 100px #071d3860; }
+.preview-dialog::backdrop { background: #0b2427b3; backdrop-filter: blur(5px); }
+.profile-dialog { width: min(620px, 94vw); }
+.avatar img { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; }
+.profile-avatar-large { width: 80px; height: 80px; font-size: 28px; margin-top: 16px; }
+.profile-edit-form fieldset { border: 0; padding: 0; min-width: 0; display: grid; gap: 16px; }
+.profile-remove { display: flex; align-items: center; gap: 8px; }
+.profile-remove input { width: auto; }
+.profile-details { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 18px; padding: 22px 0; }
+.profile-details dt { color: #58716d; }
+.profile-details dd { margin: 0; overflow-wrap: anywhere; }
+@media(max-width: 500px) { .profile-details { grid-template-columns: 1fr; gap: 8px; } .profile-details dd { margin-bottom: 12px; } }
+.preview-dialog h2 { margin: 6px 0; overflow-wrap: anywhere; }
+.preview-frame { display: block; width: 100%; height: 62vh; border: 1px solid #dbe5e1; border-radius: 12px; background: #edf2ef; margin: 20px 0; }
+.preview-dialog a.primary { display: inline-flex; text-decoration: none; padding: 12px 18px; border-radius: 9px; color: white; background: #187662; font-weight: 600; }
+.position-access { padding: 22px; margin: 22px 0; background: #f3f8f6; border: 1px solid #d8e7df; border-radius: 14px; }
+.position-access fieldset { border: 0; padding: 0; min-width: 0; }
+.position-access details { border-top: 1px solid #d8e7df; margin-top: 18px; padding-top: 18px; }
+.position-access summary { cursor: pointer; font-weight: 600; }
+.position-access h3 { margin-top: 0; }
+.panel { box-shadow: 0 5px 24px #143c3005; }
+.stat { background: linear-gradient(135deg, #ffffff, #f7faf8); }
+.document-cell .doc-icon { border-radius: 12px; box-shadow: 0 3px 10px #133f3010; }
+tbody tr { transition: background .15s ease; }
+tbody tr:hover { background: #f5faf7; }
+.format-tag { letter-spacing: .06em; }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid #55a78f; outline-offset: 4px; }
+@media(max-width: 700px) { .preview-dialog { padding: 16px; } .position-access { padding: 14px; } .position-access .grant-form { display: flex; flex-direction: column; align-items: stretch; } }
