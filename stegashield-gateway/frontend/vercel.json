@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://kjtctumyegxrryyzcoqn.onrender.com/api/$1"
+      "destination": "https://stegashield-2zs9.onrender.com/api/$1"
     },
     {
       "source": "/(.*)",
