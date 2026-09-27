@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://kjtctumyegxrryyzcoqn.supabase.co/api/$1"
+      "destination": "https://YOUR-RENDER-SERVICE.onrender.com/api/$1"
     },
     {
       "source": "/(.*)",
